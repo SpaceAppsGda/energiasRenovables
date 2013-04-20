@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<!--[if IE 8]> 				 <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width" />
+<title>PrepaNet</title>
+<link rel="stylesheet" href="normalize.css" />
+<link rel="stylesheet" href="foundation.css" />
+<script src="custom.modernizr.js"></script>
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAPDUET0Qt7p2VcSk6JNU1sBSM5jMcmVqUpI7aqV44cW1cEECiThQYkcZUPRJn9vy_TWxWvuLoOfSFBw" type="text/javascript"></script>
+</head>
+<body onunload="GUnload()" style="width:100%; height:100%; background-color:#E2E2E2;">
+
+
+<nav class="top-bar row" style=" z-index:25; left: 50%; margin-left: -480px;">
+  <ul class="title-area">
+    <!-- Title Area -->
+    <li class="name">
+      <h1><img src="header.png"></img></h1>
+    </li>
+  </ul>
+  <section class="top-bar-section"> 
+  
+    <!-- Right Nav Section -->
+    
+    <ul class="right" style="text-align:right;">
+      <h1 style="color:#FFF; font-family:Arial, Helvetica, sans-serif; text-shadow:black 0.1em 0.1em 0.2em; margin-bottom:0px;">Energy Explorer</h1>
+      <h5 style="color:#FFF; font-family:Arial, Helvetica, sans-serif; text-shadow:black 0.2em 0.2em 0.4em; margin-top:0px;">Renewable Energy</h5>
+    </ul>
+  </section>
+</nav>
+
+<div style="width: 100%; height:100px; position:absolute; padding:20px; background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #0078a7), color-stop(1, #005e7e)); z-index:20;"></div>
+
+<div style="width: 100%; height:20px; top:100px; position:absolute; padding:20px; background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #004973), color-stop(1, #002f57)); z-index:19; box-shadow: 0px 5px 15px #555;">
+  <div class="row" style="position:absolute;  padding:5px; top:0px;  left: 50%; margin-left: -220px; width:700px; margin-top:7px; color:#FFF">
+    <input type="button" onClick="setSolar()" value="solar" />
+    <input type="button" onClick="setWind()" value="wind" />
+    <input type="button" onClick="setGeothermal()" value="geothermal" />
+  </div>
+</div>
+
+<!-- 
+    ================
+     Termina top-bar
+    ================
+    -->
+
+<div class="row" style="position:absolute; background-color:#FFF; top:140px; padding:5px; left: 50%; margin-left: -480px;border: 1px solid #AAA; height:700px;">
+
+  <!--Empieza div del mapa--> 
+
+  <div id="map" style="width: 800px; height: 600px; margin-left: -400px; left: 50%; top:50px;"></div>
+  
+  <!--Termina div del mapa--> 
+</div>
+<!-- Termina div principal (Blanco)--> 
+
+
+<script type="text/javascript">
+    //<![CDATA[
+	
+	var energySelected;
+
+	function setSolar(){
+		console.log("Solar");
+		energySelected=1;
+		draw();
+	}
+	
+	function setWind(){
+		console.log("Wind");
+		energySelected=2;
+		draw();
+	}
+	
+	function setGeothermal(){
+		console.log("Geothermal");
+		energySelected=3;
+		draw();
+	}
+	
+	function getColor(name) {
+		switch (energySelected){
+			case 1:
+				return "#334466";
+			case 2:
+				return "#440000";
+			case 3:
+				return "#005500";
+		}
+	}
+	
+	function draw() {
+		map.clearOverlays();
+        if (request.readyState == 4) {
+          var xmlDoc = GXml.parse(request.responseText);
+          
+          // ========= Now process the polylines ===========
+          var states = xmlDoc.documentElement.getElementsByTagName("state");
+
+          // read each line
+          for (var a = 0; a < states.length; a++) {
+            // get any state attributes
+            var label  = states[a].getAttribute("name");
+            //var colour = states[a].getAttribute("colour");
+            var colour = getColor(states[a].getAttribute("name"));
+            // read each point on that line
+            var points = states[a].getElementsByTagName("point");
+            var pts = [];
+            for (var i = 0; i < points.length; i++) {
+               pts[i] = new GLatLng(parseFloat(points[i].getAttribute("lat")),
+                                   parseFloat(points[i].getAttribute("lng")));
+            }
+            var poly = new GPolygon(pts,"#000000",1,1,colour,0.5,{clickable:false});
+            polys.push(poly);
+            labels.push(label);
+            map.addOverlay(poly);
+          }
+          // ================================================           
+        }
+      }
+	
+    if (GBrowserIsCompatible()) {
+	
+
+      var polys = [];
+      var labels = [];
+
+
+      // === A method for testing if a point is inside a polygon
+      // === Returns true if poly contains point
+      // === Algorithm shamelessly stolen from http://alienryderflex.com/polygon/ 
+      GPolygon.prototype.Contains = function(point) {
+        var j=0;
+        var oddNodes = false;
+        var x = point.lng();
+        var y = point.lat();
+        for (var i=0; i < this.getVertexCount(); i++) {
+          j++;
+          if (j == this.getVertexCount()) {j = 0;}
+          if (((this.getVertex(i).lat() < y) && (this.getVertex(j).lat() >= y))
+          || ((this.getVertex(j).lat() < y) && (this.getVertex(i).lat() >= y))) {
+            if ( this.getVertex(i).lng() + (y - this.getVertex(i).lat())
+            /  (this.getVertex(j).lat()-this.getVertex(i).lat())
+            *  (this.getVertex(j).lng() - this.getVertex(i).lng())<x ) {
+              oddNodes = !oddNodes
+            }
+          }
+        }
+        return oddNodes;
+      }
+
+
+
+      // Display the map, with some controls and set the initial location 
+      var map = new GMap2(document.getElementById("map"));
+      map.addControl(new GLargeMapControl());
+      map.addControl(new GMapTypeControl());
+      map.setCenter(new GLatLng(42.16,-100.72),4);
+
+
+      GEvent.addListener(map, "click", function(overlay,point) {
+        if (!overlay) {
+          for (var i=0; i<polys.length; i++) {
+            if (polys[i].Contains(point)) {
+              map.openInfoWindowHtml(point,"You clicked on "+labels[i]);
+              //i = 999; // Jump out of loop
+            }
+          }
+        }
+      });
+   
+
+   
+   
+      // Read the data from states.xml
+      
+      var request = GXmlHttp.create();
+      request.open("GET", "states.xml", true);
+      request.onreadystatechange = draw;
+      request.send(null);
+
+    }
+    
+    // display a warning if the browser was not compatible
+    else {
+      alert("Sorry, the Google Maps API is not compatible with this browser");
+    }
+
+    // This Javascript is based on code provided by the
+    // Community Church Javascript Team
+    // http://www.bisphamchurch.org.uk/   
+    // http://econym.org.uk/gmap/
+
+    //]]>
+    </script> 
+
+<!-- Termina script mapa --> 
+
+<script>
+    document.write('<script src=' +
+    ('__proto__' in {} ? 'js/vendor/zepto' : 'js/vendor/jquery') +
+    '.js><\/script>')
+    </script> 
+<script src="foundation.min.js"></script>
+</div>
+<script>
+    	$(document).foundation();
+	</script>
+</body>
+</html>
