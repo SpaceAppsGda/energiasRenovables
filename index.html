@@ -13,38 +13,33 @@
 <script src="custom.modernizr.js"></script>
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAPDUET0Qt7p2VcSk6JNU1sBSM5jMcmVqUpI7aqV44cW1cEECiThQYkcZUPRJn9vy_TWxWvuLoOfSFBw" type="text/javascript"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
-
-
 </head>
 <body onunload="GUnload()" style="width:100%; height:100%; background-color:#E2E2E2;">
-
-
 <nav class="top-bar row" style=" z-index:25; left: 50%; margin-left: -480px;">
   <ul class="title-area">
     <!-- Title Area -->
-<h1 style="color:#FFF; font-family:Arial, Helvetica, sans-serif; text-shadow:black 0.1em 0.1em 0.2em; margin-bottom:0px;">Energy Explorer</h1>
-      <h5 style="color:#FFF; font-family:Arial, Helvetica, sans-serif; text-shadow:black 0.2em 0.2em 0.4em; margin-top:0px;">Renewable Energy</h5>
+    <h1 style="color:#FFF; font-family:Arial, Helvetica, sans-serif; text-shadow:black 0.1em 0.1em 0.2em; margin-bottom:0px;">Energy Explorer</h1>
+    <h5 style="color:#FFF; font-family:Arial, Helvetica, sans-serif; text-shadow:black 0.2em 0.2em 0.4em; margin-top:0px;">Renewable Energy</h5>
   </ul>
   <section class="top-bar-section"> 
-  
+    
     <!-- Right Nav Section -->
     
     <ul class="right" style="text-align:right;">
-      
     </ul>
   </section>
 </nav>
-
 <div style="width: 100%; height:100px; position:absolute; padding:20px; background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #0078a7), color-stop(1, #005e7e)); z-index:20;"></div>
-
 <div style="width: 100%; height:20px; top:100px; position:absolute; padding:20px; background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #004973), color-stop(1, #002f57)); z-index:19; box-shadow: 0px 5px 15px #555;">
   <div class="row" style="position:absolute; top:0px; padding:5px;  left: 50%; margin-left:-480px; width:960px; margin-top:7px; color:#FFF">
-	
-    <a onClick="setSolar()" style="color:#FFF;">Solar</a>
-    |
-    <a onClick="setWind()" style="color:#FFF;">Wind</a>
-    |
-    <a onClick="setGeothermal()" style="color:#FFF;">Geothermal</a>
+    <form name="frm">
+      <input type="checkbox" value="solar" id="solar" onClick="setSolar()">
+      Solar
+      <input type="checkbox" value="wind" id="wind" onClick="setWind()">
+      Wind
+      <input type="checkbox" value="geo" id="geo" onClick="setGeo()">
+      Geothermal
+    </form>
   </div>
 </div>
 
@@ -54,26 +49,24 @@
     ================
     -->
 
-<div class="row" style="position:absolute; background-color:#FFF; top:140px; padding:5px; left: 50%; margin-left: -480px;border: 1px solid #AAA; height:700px;">
-
-  <!--Empieza div del mapa--> 
-
+<div class="row" style="position:absolute; background-color:#FFF; top:140px; padding:5px; left: 50%; margin-left: -480px;border: 1px solid #AAA; height:700px;"> 
+  
+  <!--Empieza div del mapa-->
+  
   <div id="map" style="width: 800px; height: 600px; margin-left: -400px; left: 50%; top:50px;"></div>
   
   <!--Termina div del mapa--> 
   
   <!-- empieza el codigo de error -->
-      <noscript><b>JavaScript must be enabled in order for you to use Google Maps.</b> 
-      However, it seems JavaScript is either disabled or not supported by your browser. 
-      To view Google Maps, enable JavaScript by changing your browser options, and then 
-      try again.
-    </noscript>
-    <!-- termina codigo de error -->
-  
+  <noscript>
+  <b>JavaScript must be enabled in order for you to use Google Maps.</b> However, it seems JavaScript is either disabled or not supported by your browser. 
+  To view Google Maps, enable JavaScript by changing your browser options, and then 
+  try again.
+  </noscript>
+  <!-- termina codigo de error --> 
   
 </div>
 <!-- Termina div principal (Blanco)--> 
-
 
 <script type="text/javascript">
     //<![CDATA[
@@ -99,13 +92,13 @@
 		draw();
 	}
 	
-	function setGeothermal(){
+	function setGeo(){
 		console.log("Geothermal");
 		energySelected=3;
 		draw();
 	}
 	
-	function getColor(name) {
+	function getColor() {
 		switch (energySelected){
 			case 1:
 				return "#334466";
@@ -114,6 +107,101 @@
 			case 3:
 				return "#005500";
 		}
+	}
+	
+	function compara(name){
+			var selc = 0;
+			var output = new Array();
+			selc = document.frm.solar.checked << 0 |document.frm.wind.checked << 1 | document.frm.geo.checked << 2 ;
+			console.log(selc);
+			console.log(rankingData);
+
+			switch(selc){
+				case 0:
+					break;
+				case 1:
+					output[0] = "#ff0000";
+					for(var i = 0; i < rankingData.values.length; i++){
+						if (rankingData.values[i].name == name) {
+							output[1] = rankingData.values[i].solar;
+							return output;
+						}
+					}
+					break;
+				case 2:
+					output[0] = "#0000ff";
+					for(var i = 0; i < rankingData.values.length; i++){
+						if (rankingData.values[i].name == name) {
+							output[1] = rankingData.values[i].wind;
+							return output;
+						}
+					}
+					break;
+				case 3: // solar + wind
+					for(var i = 0; i < rankingData.values.length; i++){
+						if (rankingData.values[i].name == name) {
+							output[0] = rankingData.values[i].solar > rankingData.values[i].wind ? "#ff0000" : "#0000ff";
+							output[1] = rankingData.values[i].solar > rankingData.values[i].wind ? rankingData.values[i].solar : rankingData.values[i].wind;
+							return output;
+						}
+					}
+					break;
+				case 4:
+					output[0] = "#00ff00";
+					for(var i = 0; i < rankingData.values.length; i++){
+						if (rankingData.values[i].name == name) {
+							output[1] = rankingData.values[i].geo;
+							return output;
+						}
+					}
+					break;
+				case 5://Solar-Geo
+					for(var i = 0; i < rankingData.values.length; i++){
+						if (rankingData.values[i].name == name) {
+							output[0] = rankingData.values[i].solar > rankingData.values[i].geo ? "#ff0000" : "#00ff00";
+							output[1] = rankingData.values[i].solar > rankingData.values[i].geo ? rankingData.values[i].solar : rankingData.values[i].geo;
+							return output;
+						}
+					}
+					break;
+				case 6://wind-Geo
+					for(var i = 0; i < rankingData.values.length; i++){
+						if (rankingData.values[i].name == name) {
+							output[0] = rankingData.values[i].wind > rankingData.values[i].geo ? "#0000ff" : "#00ff00";
+							output[1] = rankingData.values[i].wind > rankingData.values[i].geo ? rankingData.values[i].wind : rankingData.values[i].geo;
+							return output;
+						}
+					}
+					break;
+				case 7://wind-Geo-
+					for(var i = 0; i < rankingData.values.length; i++){
+						if (rankingData.values[i].name == name) {
+							if(rankingData.values[i].wind > rankingData.values[i].geo){
+								if(rankingData.values[i].wind > rankingData.values[i].solar){
+									output[0] = "#0000ff";	
+									output[1] = rankingData.values[i].wind;	
+								}
+								else{
+									output[0] = "#ff0000";	
+									output[1] = rankingData.values[i].solar;	
+								}
+							}
+							else{
+								if(rankingData.values[i].geo > rankingData.values[i].solar){
+									output[0] = "#00ff00";	
+									output[1] = rankingData.values[i].geo;	
+								}
+								else{
+									output[0] = "#ff0000";	
+									output[1] = rankingData.values[i].solar;	
+								}
+							}	
+							return output;
+						}
+					}
+					break;
+				
+			}
 	}
 	
 	function draw() {
@@ -129,7 +217,8 @@
             // get any state attributes
             var label  = states[a].getAttribute("name");
             //var colour = states[a].getAttribute("colour");
-            var colour = getColor(states[a].getAttribute("name"));
+            var colour = compara(states[a].getAttribute("name"));
+			console.log(states[a].getAttribute("name") + " " + colour);
             // read each point on that line
             var points = states[a].getElementsByTagName("point");
             var pts = [];
@@ -137,10 +226,14 @@
                pts[i] = new GLatLng(parseFloat(points[i].getAttribute("lat")),
                                    parseFloat(points[i].getAttribute("lng")));
             }
-            var poly = new GPolygon(pts,"#000000",1,1,colour,0.5,{clickable:false});
-            polys.push(poly);
-            labels.push(label);
-            map.addOverlay(poly);
+			if (colour != undefined) {
+				console.log(colour);
+           		var poly = new GPolygon(pts,"#000000",1,1,colour[0],colour[1],{clickable:false});
+				polys.push(poly);
+            	labels.push(label);
+            	map.addOverlay(poly);
+			}
+			
           }
           // ================================================           
         }
@@ -226,7 +319,7 @@
 
 <script>
     document.write('<script src=' +
-    ('__proto__' in {} ? 'js/vendor/zepto' : 'js/vendor/jquery') +
+    ('__proto__' in {} ? 'zepto' : 'jquery') +
     '.js><\/script>')
     </script> 
 <script src="foundation.min.js"></script>
