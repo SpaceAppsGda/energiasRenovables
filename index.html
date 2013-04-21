@@ -3,9 +3,13 @@
 <!--[if gt IE 8]><!-->
 <html class="no-js" lang="en">
 <!--<![endif]-->
+<<<<<<< HEAD
 
 <link href="favicon.ico" rel="icon" type="image/x-icon" />
 
+=======
+<link href="favicon.ico" rel="icon" type="image/x-icon" />
+>>>>>>> Version Final
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width" />
@@ -13,16 +17,16 @@
 <link rel="stylesheet" href="normalize.css" />
 <link rel="stylesheet" href="foundation.css" />
 <script src="custom.modernizr.js"></script>
-<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAPDUET0Qt7p2VcSk6JNU1sBSM5jMcmVqUpI7aqV44cW1cEECiThQYkcZUPRJn9vy_TWxWvuLoOfSFBw" type="text/javascript"></script>
+<script src="https://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=AIzaSyAFaPJKZftW8Qkzq_8cdP-Reyh14gG8sjw" type="text/javascript"></script>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
 </head>
 <body onunload="GUnload()" style="width:100%; height:100%; background-color:#E2E2E2;">
 <nav class="top-bar row" style=" z-index:25; left: 50%; margin-left: -480px;">
   <ul class="title-area">
     <!-- Title Area -->
     <h1 style="color:#FFF; font-family:Arial, Helvetica, sans-serif; text-shadow:black 0.1em 0.1em 0.2em; margin-bottom:0px;">Energy Explorer</h1>
-    <h5 style="color:#FFF; font-family:Arial, Helvetica, sans-serif; text-shadow:black 0.2em 0.2em 0.4em; margin-top:0px;">Renewable Energy</h5>
+    <h5 style="color:#FFF; font-family:Arial, Helvetica, sans-serif; text-shadow:black 0.2em 0.2em 0.4em; margin-top:0px;">Space Apps Challenge</h5>
   </ul>
   <section class="top-bar-section"> 
     
@@ -41,6 +45,7 @@
   		<dd style="margin-right:10px;"><a href="solar.html">Solar Energy</a></dd>
   		<dd style="margin-right:10px;"><a href="wind.html">Wind Energy</a></dd>
   		<dd style="margin-right:10px;"><a href="geo.html">Geothermal Energy</a></dd>
+        <dd><a href="help.html">Help</a></dd>
 </dl>
   </div>
 </div>
@@ -51,11 +56,17 @@
     ================
     -->
 
-<div class="row" style="position:absolute; background-color:#FFF; top:140px; padding:5px; left: 50%; margin-left: -480px;border: 1px solid #AAA; height:1030px;"> 
+<div class="row" style="position:absolute; background-color:#FFF; top:140px; padding:5px; left: 50%; margin-left: -480px;border: 1px solid #AAA; height:1300px;"> 
   
-
+	<div class="small-10" style="width:800px; margin-left: -400px; left: 50%; top:50px;">
+    <div class="panel">
+    <p>
+    This app is basically an interactive map of all the U.S states, which uses the database of NASA in order to obtain and show citizens the potential profit that renewable energy can bring in every state. This app analyzes three forms of green energy, which are the solar, wind and geothermal energy. The map has the option of select either solar, wind or geothermal. This selection, colors the map in different color tones, being the darker tones of each basic color the states where the energy can be more profitable. At the time a state in the map is clicked, in the button of the app appears a data table that shows the energies that we are analyzing in a way of all the amount of energy that can deliver to the population.
+    </p>
+    </div>
+    </div>
   <!--Empieza div del mapa-->
-  <div id="map" style="width: 800px; height: 600px; margin-left: -400px; left: 50%; top:50px; z-index:1;"></div>
+  <div id="map" style="width: 800px; height: 600px; margin-left: -400px; left: 50%; top:100px; z-index:1;"></div>
   
   <!--Termina div del mapa--> 
   <!-- empieza el codigo de error -->
@@ -83,7 +94,7 @@
 
   <div class="row" id="detalle" style="display:none;">
   
-    <div class="small-10" style="width:800px; margin-left: -400px; left: 50%; top:100px;">
+    <div class="small-10" style="width:800px; margin-left: -400px; left: 50%; top:150px;">
       <div class="panel" style="height:250px;">
       
         <h4>Technical Potential for: <span id="detailname"></span></h4>
