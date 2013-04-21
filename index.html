@@ -26,6 +26,7 @@
     <!-- Right Nav Section -->
     
     <ul class="right" style="text-align:right;">
+    <img src="nasa.png" />
     </ul>
   </section>
 </nav>
@@ -49,14 +50,13 @@
     ================
     -->
 
-<div class="row" style="position:absolute; background-color:#FFF; top:140px; padding:5px; left: 50%; margin-left: -480px;border: 1px solid #AAA; height:1000px;"> 
+<div class="row" style="position:absolute; background-color:#FFF; top:140px; padding:5px; left: 50%; margin-left: -480px;border: 1px solid #AAA; height:1050px;"> 
   
   <!--Empieza div del mapa-->
   
   <div id="map" style="width: 800px; height: 600px; margin-left: -400px; left: 50%; top:50px;"></div>
   
   <!--Termina div del mapa--> 
-  
   <!-- empieza el codigo de error -->
   <noscript>
   <b>JavaScript must be enabled in order for you to use Google Maps.</b> However, it seems JavaScript is either disabled or not supported by your browser. 
@@ -67,23 +67,69 @@
   <!--Comienza vista detalle-->
   <div class="row">
     <div class="small-10" style="width:800px; margin-left: -400px; left: 50%; top:100px;">
-      <div class="panel">
+      <div class="panel" style="height:250px;">
+      
         <h4>Details for: <span id="detailname"></span></h4>
-        <h5>
+        <div class="small-4 columns">
+        <h4>
         Solar:
         </h4>
-        capacity1: <span id="capacity1_solar"></span><br />
-        capacity2: <span id="capacity2_solar"></span><br />
-        <h5>
-        Geo:
-        </h4>
-        capacity1: <span id="capacity1_geo"></span><br />
-        capacity2: <span id="capacity2_geo"></span><br />
-        <h5>
+        <table border="0">
+        <tr>
+        <td>urban: </td>
+        <td><span id="capacity1_solar"></span></td>
+        </tr>
+        <tr>
+        <td>rural: </td>
+        <td><span id="capacity2_solar"></span></td>
+        </tr>
+        <tr>
+        <td>rooftop: </td>
+        <td><span id="capacity3_solar"></span></td>
+        </tr>
+        <tr>
+        <td>total</td>
+        <td><span id="capacity4_solar"></span></td>
+        </tr>
+        </table>
+        </div>
+        <div class="small-4 columns"><h4>
         Wind:
         </h4>
-        capacity1: <span id="capacity1_wind"></span><br />
-        capacity2: <span id="capacity2_wind"></span><br />
+        <table border="0">
+        <tr>
+        <td>onshore: </td>
+        <td><span id="capacity1_wind"></span></td>
+        </tr>
+        <tr>
+        <td>offshore: </td>
+        <td><span id="capacity2_wind"></span></td>
+        </tr>
+        <tr>
+        <td>total: </td>
+        <td><span id="capacity3_wind"></span></td>
+        </tr>
+        </table>
+        </div>
+        <div class="small-4 columns">
+        <h4>
+        Geo:
+        </h4>
+        <table border="0">
+        <tr>
+        <td>hydrothermical: </td>
+        <td><span id="capacity1_geo"></span></td>
+        </tr>
+        <tr>
+        <td>enhanced: </td>
+        <td><span id="capacity2_geo"></span></td>
+        </tr>
+        <tr>
+        <td>total: </td>
+        <td><span id="capacity3_geo"></span></td>
+        </tr>
+        </table>
+        </div>
       </div>
     </div>
   </div>
@@ -100,10 +146,10 @@
 	$(document).ready(function() {
 		$.getJSON('ranking.php', function(data) {
 			rankingData = data;
+			//console.log(rankingData);
+			$("#solar").attr("checked", "checked");
+			draw();
 		});
-		
-		$("#solar").attr("checked", "checked");
-		draw();
 	});
 	
 	function setSolar(){
@@ -231,9 +277,18 @@
 	}
 	
 	function showDetail(name) {
-		$.getJSON('detail.js', function(data) {
+		$.getJSON('detail.php', {"state":name}, function(data) {
 			console.log(data);
-			$("#capacity1_geo").text(data.geo.capacity1);
+			$("#capacity1_solar").text(data.solar.urban);
+			$("#capacity2_solar").text(data.solar.rural);
+			$("#capacity3_solar").text(data.solar.rooftop);
+			$("#capacity4_solar").text(data.solar.total);
+			$("#capacity1_geo").text(data.geo.hydro);
+			$("#capacity2_geo").text(data.geo.enhanced);
+			$("#capacity3_geo").text(data.geo.total);
+			$("#capacity1_wind").text(data.wind.onshore);
+			$("#capacity2_wind").text(data.wind.offshore);
+			$("#capacity3_wind").text(data.wind.total);
 		});
 	}
 	
@@ -317,6 +372,7 @@
             if (polys[i].Contains(point)) {
 				console.log(labels[i]);
 				showDetail(labels[i]);
+				break;
               //map.openInfoWindowHtml(point,"You clicked on "+labels[i]);
 			  
               //i = 999; // Jump out of loop

@@ -3,6 +3,6 @@
 include("driver.php");
 
 $driver = new dbDriver();
-$driver->getRanking();
+$driver->getState(addslashes($_GET['state']));
 
 ?>
