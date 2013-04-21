@@ -31,10 +31,15 @@
     </ul>
   </section>
 </nav>
-<div style="width: 100%; height:100px; position:absolute; padding:20px; background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #0078a7), color-stop(1, #005e7e)); z-index:20;"></div>
-<div style="width: 100%; height:20px; top:100px; position:absolute; padding:20px; background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #004973), color-stop(1, #002f57)); z-index:19; box-shadow: 0px 5px 15px #555;">
-  <div class="row" style="position:absolute; top:0px; padding:5px;  left: 50%; margin-left:-480px; width:960px; margin-top:7px; color:#FFF">
-
+<div style="width: 100%; height:100px; position:absolute; padding:20px; background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #0078a7), color-stop(1, #005e7e)); background-image:-moz-linear-gradient(top, #0078a7, #005e7e);  z-index:20;"></div>
+<div style="width: 100%; height:20px; top:100px; position:absolute; padding:20px; background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #004973), color-stop(1, #002f57)); background-image:-moz-linear-gradient(top, #004973, #002f57); z-index:19; box-shadow: 0px 5px 15px #555;">
+  <div class="row" style="position:absolute; top:0px; padding:3px;  left: 50%; margin-left:-480px; width:960px; margin-top:7px; color:#FFF">
+		<dl class="sub-nav">
+  		<dd class="active"><a href="index.html">Map</a></dd>
+  		<dd style="margin-right:10px;"><a href="solar.html">Solar Energy</a></dd>
+  		<dd style="margin-right:10px;"><a href="wind.html">Wind Energy</a></dd>
+  		<dd style="margin-right:10px;"><a href="geo.html">Geothermal Energy</a></dd>
+</dl>
   </div>
 </div>
 
@@ -46,8 +51,8 @@
 
 <div class="row" style="position:absolute; background-color:#FFF; top:140px; padding:5px; left: 50%; margin-left: -480px;border: 1px solid #AAA; height:1030px;"> 
   
+
   <!--Empieza div del mapa-->
-  
   <div id="map" style="width: 800px; height: 600px; margin-left: -400px; left: 50%; top:50px; z-index:1;"></div>
   
   <!--Termina div del mapa--> 
@@ -57,7 +62,7 @@
   To view Google Maps, enable JavaScript by changing your browser options, and then 
   try again.
   </noscript>
-  <div id="map" style="width: 150px; height: 60px; margin-left: -380px; padding:5px; left: 50%; top:530px; z-index:2; background-color:rgba(255,255,255,.5); position:absolute;"><form name="frm">
+  <div  style="width: 150px; height: 60px; margin-left: -380px; padding:5px; left: 50%; top:530px; z-index:2; background-color:rgba(255,255,255,.5); position:absolute;"><form name="frm">
       <div class="row">
       <div class="columns" style="width:10px; height:10px; top:3px; margin-left: 15px; margin-right:5px; background-color:#F00";></div><input type="checkbox" value="solar" id="solar" onClick="draw()">
       Solar
@@ -73,9 +78,7 @@
     </form></div>
   <!-- termina codigo de error --> 
   <!--Comienza vista detalle-->
-  <script>
 
-  </script>
   <div class="row" id="detalle" style="display:none;">
   
     <div class="small-10" style="width:800px; margin-left: -400px; left: 50%; top:100px;">
@@ -144,8 +147,10 @@
         </div>
       </div>
     </div>
-  </div>
-  <!-- Termina vista detalle--> 
+
+  </div><!-- Termina vista detalle--> 
+  
+ 
 </div>
 <!-- Termina div principal (Blanco)--> 
 
@@ -381,6 +386,7 @@
       map.addControl(new GLargeMapControl());
       map.addControl(new GMapTypeControl());
       map.setCenter(new GLatLng(42.16,-100.72),4);
+	  map.checkResize();
 
 
       GEvent.addListener(map, "click", function(overlay,point) {
@@ -431,7 +437,6 @@
     '.js><\/script>')
     </script> 
 <script src="foundation.min.js"></script>
-</div>
 <script>
     	$(document).foundation();
 	</script>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<!--[if IE 8]> 				 <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width" />
+<title>Energy Explorer</title>
+<link rel="stylesheet" href="normalize.css" />
+<link rel="stylesheet" href="foundation.css" />
+<script src="custom.modernizr.js"></script>
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAPDUET0Qt7p2VcSk6JNU1sBSM5jMcmVqUpI7aqV44cW1cEECiThQYkcZUPRJn9vy_TWxWvuLoOfSFBw" type="text/javascript"></script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
+</head>
+<body onunload="GUnload()" style="width:100%; height:100%; background-color:#E2E2E2;">
+<nav class="top-bar row" style=" z-index:25; left: 50%; margin-left: -480px;">
+  <ul class="title-area">
+    <!-- Title Area -->
+    <h1 style="color:#FFF; font-family:Arial, Helvetica, sans-serif; text-shadow:black 0.1em 0.1em 0.2em; margin-bottom:0px;">Energy Explorer</h1>
+    <h5 style="color:#FFF; font-family:Arial, Helvetica, sans-serif; text-shadow:black 0.2em 0.2em 0.4em; margin-top:0px;">Renewable Energy</h5>
+  </ul>
+  <section class="top-bar-section"> 
+    
+    <!-- Right Nav Section -->
+    
+    <ul class="right" style="text-align:right;">
+    <img src="nasa.png" />
+    </ul>
+  </section>
+</nav>
+<div style="width: 100%; height:100px; position:absolute; padding:20px; background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #0078a7), color-stop(1, #005e7e)); z-index:20;"></div>
+<div style="width: 100%; height:20px; top:100px; position:absolute; padding:20px; background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #004973), color-stop(1, #002f57)); z-index:19; box-shadow: 0px 5px 15px #555;">
+  <div class="row" style="position:absolute; top:0px; padding:3px;  left: 50%; margin-left:-480px; width:960px; margin-top:7px; color:#FFF">
+		<dl class="sub-nav">
+  		<dd><a href="index.html">Map</a></dd>
+  		<dd class="active"><a href="solar.html">Solar Energy</a></dd>
+  		<dd style="margin-right:10px;"><a href="wind.html">Wind Energy</a></dd>
+  		<dd style="margin-right:10px;"><a href="geo.html">Geothermal Energy</a></dd>
+</dl>
+  </div>
+</div>
+
+<!-- 
+    ================
+     Termina top-bar
+    ================
+    -->
+
+<div class="row" style="position:absolute; background-color:#FFF; top:140px; padding:5px; left: 50%; margin-left: -480px;border: 1px solid #AAA; height:1030px;"> 
+  <!--Comienza vista detalle-->
+
+  <div class="row" id="detalle">
+  
+    <div class="small-10" style="width:800px; margin-left: -400px; left: 50%; top:50px;">
+      <div class="panel" >
+      <h4>Solar Energy</h4>
+        <p>
+        Solar is the Latin word for sun—a powerful source of energy that can be used to heat, cool, and light our homes and businesses. That's because more energy from the sun falls on the earth in one hour than is used by everyone in the world in one year. A variety of technologies convert sunlight to usable energy for buildings. The most commonly used solar technologies for homes and businesses are solar water heating, passive solar design for space heating and cooling, and solar photovoltaics for electricity.
+        </p>
+<p>
+Businesses and industry also use these technologies to diversify their energy sources, improve efficiency, and save money. Solar photovoltaic and concentrating solar power technologies are also being used by developers and utilities to produce electricity on a massive scale to power cities and small towns.
+</p>
+<div class="flex-video">
+<iframe width="560" height="315" src="http://www.youtube.com/embed/nxzurJFn05I" frameborder="0" allowfullscreen></iframe>
+</div>
+      </div>
+    </div>
+
+  </div><!-- Termina vista detalle--> 
+  
+ 
+</div>
+<!-- Termina div principal (Blanco)--> 
+
+
+
+<script>
+    document.write('<script src=' +
+    ('__proto__' in {} ? 'zepto' : 'jquery') +
+    '.js><\/script>')
+    </script> 
+<script src="foundation.min.js"></script>
+<script>
+    	$(document).foundation();
+	</script>
+</body>
+</html>
