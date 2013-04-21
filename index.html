@@ -33,11 +33,11 @@
 <div style="width: 100%; height:20px; top:100px; position:absolute; padding:20px; background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #004973), color-stop(1, #002f57)); z-index:19; box-shadow: 0px 5px 15px #555;">
   <div class="row" style="position:absolute; top:0px; padding:5px;  left: 50%; margin-left:-480px; width:960px; margin-top:7px; color:#FFF">
     <form name="frm">
-      <input type="checkbox" value="solar" id="solar" onClick="setSolar()">
+      <input type="checkbox" value="solar" id="solar" onClick="draw()">
       Solar
-      <input type="checkbox" value="wind" id="wind" onClick="setWind()">
+      <input type="checkbox" value="wind" id="wind" onClick="draw()">
       Wind
-      <input type="checkbox" value="geo" id="geo" onClick="setGeo()">
+      <input type="checkbox" value="geo" id="geo" onClick="draw()">
       Geothermal
     </form>
   </div>
@@ -49,7 +49,7 @@
     ================
     -->
 
-<div class="row" style="position:absolute; background-color:#FFF; top:140px; padding:5px; left: 50%; margin-left: -480px;border: 1px solid #AAA; height:700px;"> 
+<div class="row" style="position:absolute; background-color:#FFF; top:140px; padding:5px; left: 50%; margin-left: -480px;border: 1px solid #AAA; height:1000px;"> 
   
   <!--Empieza div del mapa-->
   
@@ -64,7 +64,30 @@
   try again.
   </noscript>
   <!-- termina codigo de error --> 
-  
+  <!--Comienza vista detalle-->
+  <div class="row">
+    <div class="small-10" style="width:800px; margin-left: -400px; left: 50%; top:100px;">
+      <div class="panel">
+        <h4>Details for: <span id="detailname"></span></h4>
+        <h5>
+        Solar:
+        </h4>
+        capacity1: <span id="capacity1_solar"></span><br />
+        capacity2: <span id="capacity2_solar"></span><br />
+        <h5>
+        Geo:
+        </h4>
+        capacity1: <span id="capacity1_geo"></span><br />
+        capacity2: <span id="capacity2_geo"></span><br />
+        <h5>
+        Wind:
+        </h4>
+        capacity1: <span id="capacity1_wind"></span><br />
+        capacity2: <span id="capacity2_wind"></span><br />
+      </div>
+    </div>
+  </div>
+  <!-- Termina vista detalle--> 
 </div>
 <!-- Termina div principal (Blanco)--> 
 
@@ -75,9 +98,12 @@
 	var rankingData;
 	
 	$(document).ready(function() {
-		$.getJSON('rankings.js', function(data) {
+		$.getJSON('ranking.php', function(data) {
 			rankingData = data;
 		});
+		
+		$("#solar").attr("checked", "checked");
+		draw();
 	});
 	
 	function setSolar(){
@@ -147,7 +173,7 @@
 					}
 					break;
 				case 4:
-					output[0] = "#00ff00";
+					output[0] = "#8A4D08";
 					for(var i = 0; i < rankingData.values.length; i++){
 						if (rankingData.values[i].name == name) {
 							output[1] = rankingData.values[i].geo;
@@ -158,7 +184,7 @@
 				case 5://Solar-Geo
 					for(var i = 0; i < rankingData.values.length; i++){
 						if (rankingData.values[i].name == name) {
-							output[0] = rankingData.values[i].solar > rankingData.values[i].geo ? "#ff0000" : "#00ff00";
+							output[0] = rankingData.values[i].solar > rankingData.values[i].geo ? "#ff0000" : "#8A4D08";
 							output[1] = rankingData.values[i].solar > rankingData.values[i].geo ? rankingData.values[i].solar : rankingData.values[i].geo;
 							return output;
 						}
@@ -167,7 +193,7 @@
 				case 6://wind-Geo
 					for(var i = 0; i < rankingData.values.length; i++){
 						if (rankingData.values[i].name == name) {
-							output[0] = rankingData.values[i].wind > rankingData.values[i].geo ? "#0000ff" : "#00ff00";
+							output[0] = rankingData.values[i].wind > rankingData.values[i].geo ? "#0000ff" : "#8A4D08";
 							output[1] = rankingData.values[i].wind > rankingData.values[i].geo ? rankingData.values[i].wind : rankingData.values[i].geo;
 							return output;
 						}
@@ -188,7 +214,7 @@
 							}
 							else{
 								if(rankingData.values[i].geo > rankingData.values[i].solar){
-									output[0] = "#00ff00";	
+									output[0] = "#8A4D08";	
 									output[1] = rankingData.values[i].geo;	
 								}
 								else{
@@ -202,6 +228,13 @@
 					break;
 				
 			}
+	}
+	
+	function showDetail(name) {
+		$.getJSON('detail.js', function(data) {
+			console.log(data);
+			$("#capacity1_geo").text(data.geo.capacity1);
+		});
 	}
 	
 	function draw() {
@@ -228,7 +261,7 @@
             }
 			if (colour != undefined) {
 				console.log(colour);
-           		var poly = new GPolygon(pts,"#000000",1,1,colour[0],colour[1],{clickable:false});
+           		var poly = new GPolygon(pts,"#ff0000",1,1,colour[0],colour[1],{clickable:false});
 				polys.push(poly);
             	labels.push(label);
             	map.addOverlay(poly);
@@ -282,7 +315,9 @@
         if (!overlay) {
           for (var i=0; i<polys.length; i++) {
             if (polys[i].Contains(point)) {
-              map.openInfoWindowHtml(point,"You clicked on "+labels[i]);
+				console.log(labels[i]);
+				showDetail(labels[i]);
+              //map.openInfoWindowHtml(point,"You clicked on "+labels[i]);
 			  
               //i = 999; // Jump out of loop
             }
