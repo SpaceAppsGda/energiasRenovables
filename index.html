@@ -57,13 +57,19 @@
   To view Google Maps, enable JavaScript by changing your browser options, and then 
   try again.
   </noscript>
-  <div id="map" style="width: 120px; height: 60px; margin-left: -380px; padding:5px; left: 50%; top:530px; z-index:2; background-color:rgba(255,255,255,.5); position:absolute;"><form name="frm">
-      <input type="checkbox" value="solar" id="solar" onClick="draw()">
-      Solar<br>
-      <input type="checkbox" value="wind" id="wind" onClick="draw()">
-      Wind<br>
-      <input type="checkbox" value="geo" id="geo" onClick="draw()">
+  <div id="map" style="width: 150px; height: 60px; margin-left: -380px; padding:5px; left: 50%; top:530px; z-index:2; background-color:rgba(255,255,255,.5); position:absolute;"><form name="frm">
+      <div class="row">
+      <div class="columns" style="width:10px; height:10px; top:3px; margin-left: 15px; margin-right:5px; background-color:#F00";></div><input type="checkbox" value="solar" id="solar" onClick="draw()">
+      Solar
+      </div>
+      <div class="row">
+      <div class="columns" style="width:10px; height:10px; top:3px; margin-left: 15px; margin-right:5px; background-color:#00F";></div><input type="checkbox" value="wind" id="wind" onClick="draw()">
+      Wind
+      </div>
+      <div class="row">
+      <div class="columns" style="width:10px; height:10px; top:3px; margin-left: 15px; margin-right:5px; background-color:#8A4D08";></div><input type="checkbox" value="geo" id="geo" onClick="draw()">
       Geothermal
+      </div>
     </form></div>
   <!-- termina codigo de error --> 
   <!--Comienza vista detalle-->
@@ -75,26 +81,26 @@
     <div class="small-10" style="width:800px; margin-left: -400px; left: 50%; top:100px;">
       <div class="panel" style="height:250px;">
       
-        <h4>Details for: <span id="detailname"></span></h4>
+        <h4>Technical Potential for: <span id="detailname"></span></h4>
         <div class="small-4 columns">
         <h4>
         Solar:
         </h4>
         <table border="0">
         <tr>
-        <td>urban: </td>
+        <td>Urban: </td>
         <td><span id="capacity1_solar"></span></td>
         </tr>
         <tr>
-        <td>rural: </td>
+        <td>Rural: </td>
         <td><span id="capacity2_solar"></span></td>
         </tr>
         <tr>
-        <td>rooftop: </td>
+        <td>Rooftop: </td>
         <td><span id="capacity3_solar"></span></td>
         </tr>
         <tr>
-        <td>total</td>
+        <td>Total</td>
         <td><span id="capacity4_solar"></span></td>
         </tr>
         </table>
@@ -104,34 +110,34 @@
         </h4>
         <table border="0">
         <tr>
-        <td>onshore: </td>
+        <td>Onshore: </td>
         <td><span id="capacity1_wind"></span></td>
         </tr>
         <tr>
-        <td>offshore: </td>
+        <td>Offshore: </td>
         <td><span id="capacity2_wind"></span></td>
         </tr>
         <tr>
-        <td>total: </td>
+        <td>Total: </td>
         <td><span id="capacity3_wind"></span></td>
         </tr>
         </table>
         </div>
         <div class="small-4 columns">
         <h4>
-        Geo:
+        Geothermal:
         </h4>
         <table border="0">
         <tr>
-        <td>hydrothermical: </td>
+        <td>Hydrothermical: </td>
         <td><span id="capacity1_geo"></span></td>
         </tr>
         <tr>
-        <td>enhanced: </td>
+        <td>Enhanced: </td>
         <td><span id="capacity2_geo"></span></td>
         </tr>
         <tr>
-        <td>total: </td>
+        <td>Total: </td>
         <td><span id="capacity3_geo"></span></td>
         </tr>
         </table>
