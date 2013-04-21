@@ -7,11 +7,14 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width" />
-<title>PrepaNet</title>
+<title>Energy Explorer</title>
 <link rel="stylesheet" href="normalize.css" />
 <link rel="stylesheet" href="foundation.css" />
 <script src="custom.modernizr.js"></script>
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAPDUET0Qt7p2VcSk6JNU1sBSM5jMcmVqUpI7aqV44cW1cEECiThQYkcZUPRJn9vy_TWxWvuLoOfSFBw" type="text/javascript"></script>
+
+
+
 </head>
 <body onunload="GUnload()" style="width:100%; height:100%; background-color:#E2E2E2;">
 
@@ -19,17 +22,15 @@
 <nav class="top-bar row" style=" z-index:25; left: 50%; margin-left: -480px;">
   <ul class="title-area">
     <!-- Title Area -->
-    <li class="name">
-      <h1><img src="header.png"></img></h1>
-    </li>
+<h1 style="color:#FFF; font-family:Arial, Helvetica, sans-serif; text-shadow:black 0.1em 0.1em 0.2em; margin-bottom:0px;">Energy Explorer</h1>
+      <h5 style="color:#FFF; font-family:Arial, Helvetica, sans-serif; text-shadow:black 0.2em 0.2em 0.4em; margin-top:0px;">Renewable Energy</h5>
   </ul>
   <section class="top-bar-section"> 
   
     <!-- Right Nav Section -->
     
     <ul class="right" style="text-align:right;">
-      <h1 style="color:#FFF; font-family:Arial, Helvetica, sans-serif; text-shadow:black 0.1em 0.1em 0.2em; margin-bottom:0px;">Energy Explorer</h1>
-      <h5 style="color:#FFF; font-family:Arial, Helvetica, sans-serif; text-shadow:black 0.2em 0.2em 0.4em; margin-top:0px;">Renewable Energy</h5>
+      
     </ul>
   </section>
 </nav>
@@ -37,10 +38,13 @@
 <div style="width: 100%; height:100px; position:absolute; padding:20px; background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #0078a7), color-stop(1, #005e7e)); z-index:20;"></div>
 
 <div style="width: 100%; height:20px; top:100px; position:absolute; padding:20px; background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #004973), color-stop(1, #002f57)); z-index:19; box-shadow: 0px 5px 15px #555;">
-  <div class="row" style="position:absolute;  padding:5px; top:0px;  left: 50%; margin-left: -220px; width:700px; margin-top:7px; color:#FFF">
-    <input type="button" onClick="setSolar()" value="solar" />
-    <input type="button" onClick="setWind()" value="wind" />
-    <input type="button" onClick="setGeothermal()" value="geothermal" />
+  <div class="row" style="position:absolute; top:0px; padding:5px;  left: 50%; margin-left:-480px; width:960px; margin-top:7px; color:#FFF">
+	
+    <a onClick="setSolar()" style="color:#FFF;">Solar</a>
+    |
+    <a onClick="setWind()" style="color:#FFF;">Wind</a>
+    |
+    <a onClick="setGeothermal()" style="color:#FFF;">Geothermal</a>
   </div>
 </div>
 
@@ -57,6 +61,16 @@
   <div id="map" style="width: 800px; height: 600px; margin-left: -400px; left: 50%; top:50px;"></div>
   
   <!--Termina div del mapa--> 
+  
+  <!-- empieza el codigo de error -->
+      <noscript><b>JavaScript must be enabled in order for you to use Google Maps.</b> 
+      However, it seems JavaScript is either disabled or not supported by your browser. 
+      To view Google Maps, enable JavaScript by changing your browser options, and then 
+      try again.
+    </noscript>
+    <!-- termina codigo de error -->
+  
+  
 </div>
 <!-- Termina div principal (Blanco)--> 
 
@@ -64,7 +78,7 @@
 <script type="text/javascript">
     //<![CDATA[
 	
-	var energySelected;
+	var energySelected=0;
 
 	function setSolar(){
 		console.log("Solar");
@@ -169,6 +183,7 @@
           for (var i=0; i<polys.length; i++) {
             if (polys[i].Contains(point)) {
               map.openInfoWindowHtml(point,"You clicked on "+labels[i]);
+			  
               //i = 999; // Jump out of loop
             }
           }
@@ -182,7 +197,7 @@
       
       var request = GXmlHttp.create();
       request.open("GET", "states.xml", true);
-      request.onreadystatechange = draw;
+      //request.onreadystatechange = draw;
       request.send(null);
 
     }
